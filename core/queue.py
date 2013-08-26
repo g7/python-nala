@@ -108,4 +108,4 @@ class Queue(GObject.GObject):
 			# We need to ensure to fire a processable signal for every
 			# add_to_queue call, so using a global list is not reliable.
 			# We pass the items directly to self.__processable
-			GObject.idle_add(self.__processable, (watcher.path, trigger_path, event))
+			GObject.idle_add(self.__processable, [(watcher.path, trigger_path, event)])
