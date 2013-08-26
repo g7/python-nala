@@ -20,9 +20,9 @@
 
 from gi.repository import GLib
 
-from core.watchers import WatcherPool
-from core.queue import Queue
-from core.applications import Application
+from nala.watchers import WatcherPool
+from nala.queue import Queue
+from nala.applications import Application
 
 def on_incoming_queue(self, lst):
 	print "GOT QUEUE!", lst
