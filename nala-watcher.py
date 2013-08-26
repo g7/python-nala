@@ -24,21 +24,20 @@ from core.watchers import WatcherPool
 from core.queue import Queue
 from core.applications import Application
 
-def on_watcher_changed(pool, watcher, trigger, event):
-	print "pool's watcher-changed emitted!"
+def on_incoming_queue(self, lst):
+	print "GOT QUEUE!", lst
 
 def add_to_queue(pool, watcher, trigger, event, queue):
 	return queue.add_to_queue(watcher, trigger, event)
 
 pool = WatcherPool()
 queue = Queue()
-xdgmenu = Application("/bin/echo", ["/usr/share/applications", "/tmp"])
+xdgmenu = Application("/bin/echo", ["/usr/share/applications"])
 pool.add_watcher(xdgmenu.triggers)
 queue.add_application(xdgmenu)
 
-print queue.triggers
-
 pool.connect("watcher-changed", add_to_queue, queue)
+queue.connect("processable", on_incoming_queue)
 
 if __name__ == "__main__":
 	loop = GLib.MainLoop()
