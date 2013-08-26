@@ -24,8 +24,8 @@ from nala.watchers import WatcherPool
 from nala.queue import Queue
 from nala.applications import Application
 
-def on_incoming_queue(self, lst):
-	print "GOT QUEUE!", lst
+def on_incoming_queue(self, apps, lst):
+	print "GOT QUEUE!", apps, lst
 
 def add_to_queue(pool, watcher, trigger, event, queue):
 	return queue.add_to_queue(watcher, trigger, event)

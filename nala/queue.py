@@ -46,7 +46,7 @@ class Queue(GObject.GObject):
 	  """
 	
 	__gsignals__ = {
-		"processable" : (GObject.SIGNAL_RUN_FIRST, None, (GObject.TYPE_PYOBJECT,))
+		"processable" : (GObject.SIGNAL_RUN_FIRST, None, (GObject.TYPE_PYOBJECT, GObject.TYPE_PYOBJECT,))
 	}
 		
 	in_queue = []
@@ -78,10 +78,17 @@ class Queue(GObject.GObject):
 		the current Queue to the listeners of the 'processable' signal. """
 		
 		if not override:
-			self.emit("processable", self.in_queue)
-			self.in_queue = []
-		else:
-			self.emit("processable", override)
+			override = self.in_queue
+		
+		# Get application list to process
+		apps = []
+		for item in override:
+			if item[0] in self.triggers:
+				# item[0] is watcher's path
+				for app in self.triggers[item[0]]:
+					if not app in apps: apps.append(app)
+		
+		self.emit("processable", apps, self.in_queue)
 		
 		# Remove the timeout
 		if self.timeout:
