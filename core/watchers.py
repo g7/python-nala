@@ -28,23 +28,17 @@ class WatcherPool(GObject.GObject):
 		"watcher-changed" : (GObject.SIGNAL_RUN_LAST, None, (GObject.GObject, Gio.File, Gio.FileMonitorEvent,))
 	}
 	watchers = {}
-	
-	def __init__(self, queue):
-		""" Constructs the WatcherPool.
 		
-		queue is a core.Queue.Queue() object."""
-		
-		GObject.GObject.__init__(self)
-		
-		self.queue = queue
-	
-	def add_watcher(self, path):
+	def add_watcher(self, paths):
 		""" Creates a new Watcher and adds it to self.watchers. """
 		
-		if path in self.watchers: return
+		if type(paths) not in (list,tuple): paths = (paths,)
 		
-		self.watchers[path] = Watcher(path)
-		self.watchers[path].connect("changed", self.on_child_watcher_changed)
+		for path in paths:
+			if path in self.watchers: continue
+			
+			self.watchers[path] = Watcher(path)
+			self.watchers[path].connect("changed", self.on_child_watcher_changed)
 	
 	def on_child_watcher_changed(self, watcher, trigger, event):
 		""" Triggered when a child watcher has been changed. """

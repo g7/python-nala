@@ -17,29 +17,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+# This file contains the applications library.
 
-from gi.repository import GLib
+class Application:
+	""" An Application object represents a target application which
+	needs to do things when one of its watched files has been changed. """
 
-from core.watchers import WatcherPool
-from core.queue import Queue
-from core.applications import Application
-
-def on_watcher_changed(pool, watcher, trigger, event):
-	print "pool's watcher-changed emitted!"
-
-def add_to_queue(pool, watcher, trigger, event, queue):
-	return queue.add_to_queue(watcher, trigger, event)
-
-pool = WatcherPool()
-queue = Queue()
-xdgmenu = Application("/bin/echo", ["/usr/share/applications", "/tmp"])
-pool.add_watcher(xdgmenu.triggers)
-queue.add_application(xdgmenu)
-
-print queue.triggers
-
-pool.connect("watcher-changed", add_to_queue, queue)
-
-if __name__ == "__main__":
-	loop = GLib.MainLoop()
-	loop.run()
+	def __init__(self, path, triggers=[]):
+		""" Constructs the object.
+		
+		path is the application's path.
+		
+		triggers is a list of trigger that will then become
+		self.triggers.
+		
+		Note that an application trigger is not automatically added
+		to the list of watched files.
+		You need to update your WatcherPool accordingly. """
+		
+		self.path = path
+		self.triggers = triggers

@@ -26,5 +26,26 @@ class Queue(GObject.GObject):
 	
 	# Hey, this needs implementation!
 	
-	def lol(self):
-		print "asd"
+	in_queue = []
+	in_build = []
+	triggers = {}
+
+	def add_application(self, app):
+		""" Adds an Application. """
+		
+		for trigger in app.triggers:
+			if not trigger in self.triggers:
+				self.triggers[trigger] = []
+			
+			self.triggers[trigger].append(app)
+	
+	def add_to_queue(self, watcher, trigger, event):
+		""" Adds a trigger to the queue. """
+		
+		trigger_path = trigger.get_path()
+		
+		if not watcher.path in self.triggers:
+			# We do not need to touch this
+			return
+		
+		self.in_queue.append((watcher.path, trigger_path, event))
