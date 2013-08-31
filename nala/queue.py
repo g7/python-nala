@@ -79,7 +79,7 @@ class Queue(GObject.GObject):
 		
 		if not override:
 			override = self.in_queue
-		
+				
 		# Get application list to process
 		apps = []
 		for item in override:
@@ -89,6 +89,8 @@ class Queue(GObject.GObject):
 					if not app in apps: apps.append(app)
 		
 		self.emit("processable", apps, self.in_queue)
+		
+		self.in_queue = [] 
 		
 		# Remove the timeout
 		if self.timeout:
