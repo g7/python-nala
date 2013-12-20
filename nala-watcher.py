@@ -31,7 +31,7 @@ def add_to_queue(pool, watcher, trigger, event, queue):
 	return queue.add_to_queue(watcher, trigger, event)
 
 pool = WatcherPool()
-queue = Queue()
+queue = Queue(30)
 xdgmenu = Application("/bin/echo", ["/usr/share/applications"])
 pool.add_watcher(xdgmenu.triggers)
 queue.add_application(xdgmenu)
