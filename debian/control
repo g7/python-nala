@@ -1,0 +1,18 @@
+Source: python-nala
+Section: x11
+Priority: optional
+Maintainer: Eugenio Paolantonio (g7) <me@medesimo.eu>
+Build-Depends: python (>= 2.6.6-3), python-all, debhelper (>= 8.0.0)
+X-Python-Version: >= 2.6
+Standards-Version: 3.9.5
+Homepage: https://github.com/g7/python-nala
+Vcs-Git: git://github.com/g7/python-nala.git
+Vcs-Browser: https://github.com/g7/python-nala
+
+Package: python-nala
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}, python-gi, gir1.2-glib-2.0
+Description: file/directory watcher library based on GLib
+ nala is a python-written file/directory watcher library based on GLib.
+ It permits to create simple file watchers in seconds, and provides a
+ nice Queue system.
